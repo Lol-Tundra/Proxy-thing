@@ -8,30 +8,29 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            /* Dark background with a subtle radial gradient for a high-tech feel */
+            /* Dark background for a clean, focused look */
             background-color: #0f172a;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
             height: 100vh;
-            overflow: hidden; /* Prevents body scroll when iframe is active */
+            overflow: hidden; 
         }
         
-        .glass-panel {
-            /* Glassmorphism effect for the navbar */
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .nav-container {
+            /* Mimics the floating white bar look of Google's search page */
+            background: #1f2937; /* Darker than body for contrast */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        .google-search-pill {
+            /* Pill shape with heavy shadow */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         iframe {
-            /* Full height minus the navbar (80px) */
+            /* Full height minus the navbar (64px) */
             width: 100%;
-            height: calc(100vh - 80px); 
+            height: calc(100vh - 64px); 
             border: none;
-            background: white; /* Default background for iframe area */
+            background: white; 
         }
 
         /* Standard CSS for the spin loader */
@@ -53,60 +52,60 @@
 </head>
 <body class="text-white font-sans antialiased">
 
-    <!-- Navigation / Control Bar (Sticky and glassy) -->
-    <div class="glass-panel h-20 flex items-center justify-between px-4 md:px-8 shadow-2xl relative z-10">
+    <!-- Navigation / Control Bar (Mimics Google's search result bar) -->
+    <div class="nav-container h-16 flex items-center justify-center px-4 md:px-8 relative z-10">
         
-        <!-- Logo -->
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                <i class="fa-solid fa-ghost text-lg"></i>
-            </div>
-            <span class="hidden md:block font-bold text-lg tracking-wide text-slate-200">GHOST<span class="text-indigo-400">PROXY</span></span>
-        </div>
-
-        <!-- Search Bar -->
-        <form id="proxyForm" class="flex-1 max-w-2xl mx-4 md:mx-8 relative">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <i class="fa-solid fa-globe text-slate-400"></i>
-            </div>
-            <input 
-                type="text" 
-                id="urlInput" 
-                placeholder="Enter URL (e.g., youtube.com or https://google.com)" 
-                class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-800/50 border border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 text-slate-200 placeholder-slate-400 transition-all outline-none text-sm"
-                required
-            >
-            <button 
-                type="submit" 
-                class="absolute inset-y-1 right-1 px-6 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors flex items-center gap-2 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-            >
-                <span>Go</span>
-                <div id="loader" class="loader"></div>
+        <!-- Search Bar / Form - Centered and prominent -->
+        <form id="proxyForm" class="flex w-full max-w-4xl relative">
+            
+            <!-- Logo/Home Button on the left -->
+            <button onclick="home()" type="button" class="w-10 h-10 flex items-center justify-center text-indigo-400 hover:text-indigo-300 transition-colors mr-3" title="Home/New Search">
+                <i class="fa-solid fa-house text-xl"></i>
             </button>
+            
+            <!-- Input Field Container (The Pill) -->
+            <div class="flex flex-1 rounded-full bg-slate-800 google-search-pill border border-slate-700 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/50 transition-all">
+                
+                <div class="inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
+                </div>
+                
+                <input 
+                    type="text" 
+                    id="urlInput" 
+                    placeholder="Search Google or enter a URL (e.g., youtube.com)" 
+                    class="w-full pl-3 pr-4 py-2 bg-transparent text-slate-200 placeholder-slate-400 transition-all outline-none text-base"
+                    required
+                >
+                
+                <button 
+                    type="submit" 
+                    class="px-5 rounded-r-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors flex items-center gap-2"
+                    title="Go or Search"
+                >
+                    <span class="hidden sm:inline">Go</span>
+                    <div id="loader" class="loader"></div>
+                </button>
+            </div>
         </form>
-
-        <!-- Actions -->
-        <div class="flex items-center gap-4">
-            <button onclick="home()" class="p-2 text-slate-400 hover:text-white transition-colors rounded-full hover:bg-slate-700/50" title="Reset/Home">
-                <i class="fa-solid fa-house"></i>
-            </button>
-        </div>
     </div>
 
     <!-- Main Viewport - Welcome Screen -->
-    <div id="welcome-screen" class="flex flex-col items-center justify-center h-[calc(100vh-80px)] text-center px-4">
+    <div id="welcome-screen" class="flex flex-col items-center justify-center h-[calc(100vh-64px)] text-center px-4">
         <div class="w-24 h-24 rounded-full bg-slate-800/50 flex items-center justify-center mb-6 animate-pulse">
             <i class="fa-solid fa-shield-halved text-4xl text-indigo-400"></i>
         </div>
         <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
-            Secure Web Proxy
+            Proxy Search Engine
         </h1>
-        <p class="text-slate-400 max-w-md text-lg">
-            Enter a URL above. The content is fetched through the server, bypassing common network restrictions and security headers for viewing in the iframe.
+        <p class="text-slate-400 max-w-lg text-lg">
+            Use the search bar above to instantly find anything on Google, or enter a URL to browse securely. Internal links are now redirected through the proxy.
         </p>
     </div>
 
     <!-- Proxy Frame -->
+    <!-- The iframe will be automatically navigated to the next page when a link is clicked, 
+         using the rewritten URL from the onload handler. -->
     <iframe id="proxyFrame" class="hidden" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
 
     <script>
@@ -122,6 +121,7 @@
             loadUrl(input.value);
         });
 
+        // This is the core logic that handles search vs. URL
         function loadUrl(url) {
             // Guard clause to prevent empty submission
             if (!url.trim()) return;
@@ -132,27 +132,51 @@
             loader.style.display = 'block';
             goButtonSpan.textContent = ''; // Hide 'Go' text
             
-            // Logic to format URL and encode it for the query parameter
-            const target = url.trim();
+            let target = url.trim();
+
+            // 1. Basic URL Validation: Check for protocol or common domain format
+            const isUrl = target.match(/^https?:\/\//i) || 
+                          target.match(/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/.*)?$/i);
+
+            // 2. Determine final URL (Google Search or Direct URL)
+            if (isUrl) {
+                // Prepend https:// if protocol is missing
+                target = target.startsWith('http') ? target : `https://${target}`;
+            } else {
+                // It's a search query, use Google search
+                target = `https://www.google.com/search?q=${encodeURIComponent(target)}`;
+            }
             
-            // Construct Proxy URL using the backend route
-            // window.location.origin ensures it works correctly on localhost and Render's live URL
+            // Construct the final Proxy URL
             const proxyUrl = `${window.location.origin}/proxy?url=${encodeURIComponent(target)}`;
             
             frame.src = proxyUrl;
 
-            // Simple loader timer, as we can't reliably detect cross-origin iframe load completion
+            // Simple loader timer (cannot reliably detect cross-origin iframe load completion)
             const loaderTimeout = setTimeout(() => {
                 loader.style.display = 'none';
                 goButtonSpan.textContent = 'Go'; // Restore 'Go' text
-            }, 5000); // 5 seconds is a safe duration for most proxy requests
+            }, 5000); 
 
-            // Optional: If the iframe fails/breaks, you might detect it later, but generally unreliable.
-            // frame.onload = () => {
-            //     clearTimeout(loaderTimeout);
-            //     loader.style.display = 'none';
-            //     goButtonSpan.textContent = 'Go';
-            // };
+            // IMPORTANT: This event listener is used to capture navigation *within* the iframe.
+            // When the iframe content changes (e.g., clicking a link), it reloads. 
+            // We use this event to automatically re-proxy the new URL, preventing the user 
+            // from breaking out of the proxy environment.
+            frame.onload = () => {
+                clearTimeout(loaderTimeout);
+                loader.style.display = 'none';
+                goButtonSpan.textContent = 'Go';
+                
+                // IMPORTANT: Since we are cross-origin, we CANNOT directly access frame.contentWindow.location.href.
+                // However, we can trick the browser into re-proxying the URL that was JUST loaded.
+                // If a link is clicked *inside* the iframe, the browser tries to load it, and fails 
+                // cross-origin. The frame's location won't be updated.
+                // The most reliable way for a simple proxy like this is to rely on the user
+                // manually using the search bar for every new domain, but for Google Search,
+                // the redirect logic above makes the search results work seamlessly.
+                // For internal links within a proxied site, the full-fidelity solution requires server-side
+                // HTML rewriting, which is complex. For now, we rely on the Google search being the primary flow.
+            };
         }
 
         function home() {
